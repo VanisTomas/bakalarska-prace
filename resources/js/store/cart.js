@@ -71,9 +71,7 @@ export default {
 		async getCartItems({ commit, rootGetters }) {
 			if (rootGetters['auth/authenticated']) {
 				const response = await Cart.getItems();
-				if (response.data) {
-					commit('SET_CART', response.data);
-				}
+				commit('SET_CART', response.data);
 			}
 		},
 		async updateQuantity({ commit, rootGetters }, data) {

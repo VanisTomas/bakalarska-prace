@@ -37,7 +37,7 @@ export default {
       return this.$store.getters['cart/cartTotalPrice'];
     }
   },
-  mounted() {
+  created() {
     this.$store.dispatch('cart/getCartItems');
   },
   methods: {

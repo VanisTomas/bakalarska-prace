@@ -214,7 +214,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       maxPrice: 0
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.initCategories();
     this.initMaxPrice();
   },

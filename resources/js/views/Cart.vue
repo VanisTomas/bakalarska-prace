@@ -1,9 +1,9 @@
 <template>
   <div class="card">
-    <loader v-if="loading" :absolute="true" />
     <div class="card-header">Your cart</div>
     <div class="card-body">
-      <template v-if="!showPayment">
+      <loader v-if="loading" />
+      <template v-else>
         <ul v-if="cart.length" class="list-group">
           <li v-for="item in cart" :key="item.product.id" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -20,7 +20,7 @@
             </div>
           </li>
           <li class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center flex-wra">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
               <span>Total:</span>
               <span>{{ cartTotalPrice }} CZK</span>
             </div>
@@ -28,47 +28,28 @@
         </ul>
         <h3 v-else>Cart is empty</h3>
         <div v-if="cart.length" class="mt-3">
-          <button class="btn btn-secondary" @click="clearCart">Clear cart</button>
-          <button class="btn btn-primary" :disabled="loading" @click="showModal = true">Complete order</button>
+          <button class="btn btn-secondary" :disabled="loading" @click="clearCart">Clear cart</button>
+          <button class="btn btn-primary" :disabled="loading" @click="showModal = true">Create order</button>
         </div>
-        <modal v-if="showModal" title="Complete order" confirmation="Complete order" @close="showModal = false" @confirm="goToPayment">Are you sure, that you want to complete this order ?</modal>
       </template>
-      <template v-else>
-        <payment-button :payment="payment" @success="completeOrder" @error="paymentError" />
-        <button class="btn btn-secondary" @click="showPayment = false">Cancel order</button>
-      </template>
+      <modal v-if="showModal" title="Create order" confirmation="Create order" @close="showModal = false" @confirm="createOrder">Are you sure, that you want to create this order ?</modal>
     </div>
   </div>
 </template>
 
 <script>
 import Order from '../apis/Order';
-import PaymentButton from '../components/PaymentButton';
 
 export default {
-  components: {
-    'payment-button': PaymentButton
-  },
   data() {
     return {
       showModal: false,
-      loading: false,
-      showPayment: false
+      loading: false
     };
   },
   computed: {
     cart() {
       return this.$store.getters['cart/cart'];
-    },
-    payment() {
-      const description = [];
-      this.cart.forEach(item => {
-        description.push(`${item.product.title}: ${item.quantity} x ${item.product.price} CZK`);
-      });
-      return {
-        amount: this.cartTotalPrice,
-        description: description.join(', ')
-      };
     },
     cartTotalPrice() {
       return this.$store.getters['cart/cartTotalPrice'];
@@ -86,23 +67,18 @@ export default {
         this.$store.dispatch('cart/updateQuantity', item);
       }
     },
-    goToPayment() {
+    async createOrder() {
       this.showModal = false;
-      this.showPayment = true;
-    },
-    completeOrder() {
       this.loading = true;
       const data = {
         amount: this.cartTotalPrice,
-        items: this.cart
+        items: this.cart,
+        order_hash: this.generateHash(20)
       };
-      Order.completeOrder(data);
+      await Order.createOrder(data);
       this.$store.dispatch('cart/clearCart');
-      this.$toasted.success('Your order was successful');
-      this.$router.push('/shop');
-    },
-    paymentError() {
-      this.$toasted.error('An error occurred during payment');
+      this.$toasted.success('Your order was successfully created');
+      this.$router.push('/order/' + data.order_hash);
     }
   }
 }

@@ -2,9 +2,10 @@ import axios from 'axios';
 import router from '../router';
 import store from '../store';
 import Vue from 'vue';
+import config from '../config';
 
 const Api = axios.create({
-	baseURL: 'http://localhost:8000/api'
+	baseURL: config.api_base_url
 });
 
 Api.interceptors.response.use(

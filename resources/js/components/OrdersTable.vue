@@ -5,6 +5,7 @@
       <div v-if="admin">User</div>
       <div>Date</div>
       <div>Amount</div>
+      <div>Status</div>
     </div>
     <div v-for="(order, index) in orders" :key="order.id" class="orders-row">
       <div class="orders-row-header" @click="toggleInfo(index)">
@@ -12,6 +13,7 @@
         <div v-if="admin">{{ getUsername(order.user) }}</div>
         <div>{{ dateFormat(order.created_at) }}</div>
         <div>{{ order.amount }} CZK</div>
+        <div :class="{ 'text-success': order.status === 'paid', 'text-danger': order.status === 'cancelled' }">{{ order.status }}</div>
       </div>
       <transition name="slide">
         <div v-show="detailsDisplayed[index]" class="orders-row-detail">
@@ -23,6 +25,7 @@
               </div>
             </li>
           </ul>
+          <router-link :to="'/order/' + order.order_hash" class="btn btn-primary mt-1">Show order detail</router-link>
         </div>
       </transition>
     </div>
@@ -109,7 +112,6 @@ export default {
 .slide-leave {
   transform: scaleY(1);
 }
-
 .slide-enter,
 .slide-leave-to {
   transform: scaleY(0);

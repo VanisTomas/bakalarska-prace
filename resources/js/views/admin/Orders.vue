@@ -13,6 +13,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import Order from '../../apis/Order';
 import OrdersTable from '../../components/OrdersTable';

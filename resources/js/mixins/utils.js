@@ -32,6 +32,14 @@ export default {
 			const month = dateObj.getMonth() + 1;
 			const year = dateObj.getFullYear();
 			return `${day}. ${month}. ${year}`;
+		},
+		generateHash(length) {
+			var result = '';
+			var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			for (var i = 0; i < length; i++) {
+				result += characters.charAt(Math.floor(Math.random() * characters.length));
+			}
+			return result;
 		}
 	}
 };

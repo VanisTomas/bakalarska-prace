@@ -35,7 +35,7 @@ export default {
       maxPrice: 0
     };
   },
-  mounted() {
+  created() {
     this.initCategories();
     this.initMaxPrice();
   },

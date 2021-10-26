@@ -98,6 +98,12 @@ export const routes = [
 		component: () => import('../views/Orders')
 	},
 	{
+		name: 'order',
+		path: '/order/:hash',
+		component: () => import('../views/Order'),
+		props: true
+	},
+	{
 		name: 'page-not-found',
 		path: '*',
 		component: () => import('../views/PageNotFound')

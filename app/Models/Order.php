@@ -12,7 +12,9 @@ class Order extends Model {
 
 	protected $fillable = [
 		'user_id',
-		'amount'
+		'amount',
+		'status',
+		'order_hash'
 	];
 
 	public function product() {

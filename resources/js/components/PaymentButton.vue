@@ -5,40 +5,34 @@
 </template>
 
 <script>
+import config from '../config';
+import Paypal from '../apis/Paypal';
+
 export default {
   props: {
-    payment: {
-      type: Object,
+    orderHash: {
+      type: String,
       required: true
     }
   },
   mounted() {
     const script = document.createElement('script');
-    script.src = 'https://www.paypal.com/sdk/js?currency=CZK&buyer-country=CZ&client-id=AfcyXOQF72j1pPhfhlQ2X8eDtm_OZpbvlqyVgdJ7tfDPYqCB1gwbbuVZnDtD2D1gEJ3OtS8qhm5phSGk';
+    script.src = 'https://www.paypal.com/sdk/js?buyer-country=CZ&currency=CZK&client-id=' + config.paypal_client_id;
     script.addEventListener('load', this.paypalInit);
     document.body.appendChild(script);
   },
   methods: {
     paypalInit() {
       window.paypal.Buttons({
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                description: this.payment.description,
-                amount: {
-                  currency_code: 'CZK',
-                  value: this.payment.amount
-                }
-              }
-            ]
-          });
+        createOrder: async () => {
+          const response = await Paypal.createOrder({ orderHash: this.orderHash });
+          return response.data.result.id;
         },
-        onApprove: async (data, actions, resp) => {
-          const order = await actions.order.capture();
+        onApprove: async (data) => {
+          await Paypal.captureOrder({ orderId: data.orderID });
           this.$emit('success');
         },
-        onError: err => {
+        onError: () => {
           this.$emit('error');
         }
       }).render(this.$refs.paypal);

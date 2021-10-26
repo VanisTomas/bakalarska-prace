@@ -2329,7 +2329,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters['cart/cartTotalPrice'];
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     this.$store.dispatch('cart/getCartItems');
   },
   methods: {
@@ -58456,12 +58456,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./resources/js/config.js");
+
 
 
 
 
 var Api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://localhost:8000/api'
+  baseURL: _config__WEBPACK_IMPORTED_MODULE_4__["default"].api_base_url
 });
 Api.interceptors.response.use(function (response) {
   return response;
@@ -59076,6 +59078,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/config.js":
+/*!********************************!*\
+  !*** ./resources/js/config.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  api_base_url: 'http://localhost:8000/api',
+  paypal_client_id: 'AfcyXOQF72j1pPhfhlQ2X8eDtm_OZpbvlqyVgdJ7tfDPYqCB1gwbbuVZnDtD2D1gEJ3OtS8qhm5phSGk'
+});
+
+/***/ }),
+
 /***/ "./resources/js/mixins/utils.js":
 /*!**************************************!*\
   !*** ./resources/js/mixins/utils.js ***!
@@ -59121,6 +59139,16 @@ __webpack_require__.r(__webpack_exports__);
       var month = dateObj.getMonth() + 1;
       var year = dateObj.getFullYear();
       return "".concat(day, ". ").concat(month, ". ").concat(year);
+    },
+    generateHash: function generateHash(length) {
+      var result = '';
+      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+
+      return result;
     }
   }
 });
@@ -59209,13 +59237,13 @@ var routes = [{
   name: 'home',
   path: '/',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../views/Home */ "./resources/js/views/Home.vue"));
+    return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ../views/Home */ "./resources/js/views/Home.vue"));
   }
 }, {
   name: 'register',
   path: '/register',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ../views/Register */ "./resources/js/views/Register.vue"));
+    return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ../views/Register */ "./resources/js/views/Register.vue"));
   },
   meta: {
     requiresGuest: true
@@ -59224,7 +59252,7 @@ var routes = [{
   name: 'login',
   path: '/login',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ../views/Login */ "./resources/js/views/Login.vue"));
+    return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ../views/Login */ "./resources/js/views/Login.vue"));
   },
   meta: {
     requiresGuest: true
@@ -59233,7 +59261,7 @@ var routes = [{
   name: 'profile',
   path: '/profile',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ../views/Profile */ "./resources/js/views/Profile.vue"));
+    return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ../views/Profile */ "./resources/js/views/Profile.vue"));
   },
   meta: {
     requiresAuth: true
@@ -59242,7 +59270,7 @@ var routes = [{
   name: 'profile-edit',
   path: '/profile/edit',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ../views/ProfileEdit */ "./resources/js/views/ProfileEdit.vue"));
+    return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ../views/ProfileEdit */ "./resources/js/views/ProfileEdit.vue"));
   },
   meta: {
     requiresAuth: true
@@ -59251,7 +59279,7 @@ var routes = [{
   name: 'profile-password',
   path: '/profile/password',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ../views/ChangePassword */ "./resources/js/views/ChangePassword.vue"));
+    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../views/ChangePassword */ "./resources/js/views/ChangePassword.vue"));
   },
   meta: {
     requiresAuth: true
@@ -59266,14 +59294,14 @@ var routes = [{
   name: 'product',
   path: '/product/:id',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../views/Product */ "./resources/js/views/Product.vue"));
+    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../views/Product */ "./resources/js/views/Product.vue"));
   },
   props: true
 }, {
   name: 'admin',
   path: '/admin',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../views/Admin */ "./resources/js/views/Admin.vue"));
+    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ../views/Admin */ "./resources/js/views/Admin.vue"));
   },
   meta: {
     requiresAdmin: true
@@ -59291,7 +59319,7 @@ var routes = [{
   name: 'admin-category',
   path: '/admin/category',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../views/admin/Category */ "./resources/js/views/admin/Category.vue"));
+    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../views/admin/Category */ "./resources/js/views/admin/Category.vue"));
   },
   meta: {
     requiresAdmin: true
@@ -59300,7 +59328,7 @@ var routes = [{
   name: 'admin-orders',
   path: '/admin/orders',
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(15)]).then(__webpack_require__.bind(null, /*! ../views/admin/Orders */ "./resources/js/views/admin/Orders.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(16)]).then(__webpack_require__.bind(null, /*! ../views/admin/Orders */ "./resources/js/views/admin/Orders.vue"));
   },
   meta: {
     requiresAdmin: true
@@ -59309,19 +59337,26 @@ var routes = [{
   name: 'cart',
   path: '/cart',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../views/Cart */ "./resources/js/views/Cart.vue"));
+    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../views/Cart */ "./resources/js/views/Cart.vue"));
   }
 }, {
   name: 'orders',
   path: '/orders',
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ../views/Orders */ "./resources/js/views/Orders.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(11)]).then(__webpack_require__.bind(null, /*! ../views/Orders */ "./resources/js/views/Orders.vue"));
   }
+}, {
+  name: 'order',
+  path: '/order/:hash',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../views/Order */ "./resources/js/views/Order.vue"));
+  },
+  props: true
 }, {
   name: 'page-not-found',
   path: '*',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ../views/PageNotFound */ "./resources/js/views/PageNotFound.vue"));
+    return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ../views/PageNotFound */ "./resources/js/views/PageNotFound.vue"));
   }
 }];
 
@@ -59555,10 +59590,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 response = _context4.sent;
-
-                if (response.data) {
-                  commit('SET_CART', response.data);
-                }
+                commit('SET_CART', response.data);
 
               case 6:
               case "end":

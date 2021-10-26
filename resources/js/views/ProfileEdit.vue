@@ -16,6 +16,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import User from '../apis/User';
 
